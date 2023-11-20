@@ -1,0 +1,116 @@
+Private Sub NextBtn_Click()
+Dim SleepStart As String
+Dim sleepEnd As String
+Dim facultyName As String
+Dim intRow As Integer
+Dim timeTypeStart As String
+Dim timeNumberStart As Integer
+Dim timeTypeEnd As String
+Dim timeNumberEnd As Integer
+Dim locationOfColonS As Integer
+Dim locationOfColonE As Integer
+
+intRow = 2
+
+SleepStart = Sleepstarttxt.Value
+sleepEnd = sleependtxt.Value
+facultyName = FacultyComboBox.Value
+
+If (SleepStart = "" Or sleepEnd = "" Or facultyName = "") Then
+MsgBox "Please fill in all the required data before saving!", vbExclamation, "Warning!"
+ElseIf (SleepStart = sleepEnd) Then
+MsgBox "Be realistic - you need some sleep", vbExclamation, "Sleep!"
+
+Else
+
+timeTypeStart = Right(SleepStart, 2)
+timeTypeEnd = Right(sleepEnd, 2)
+
+locationOfColonS = InStr(SleepStart, ":")
+timeNumberStart = Mid(SleepStart, 1, locationOfColonS - 1)
+
+locationOfColonE = InStr(sleepEnd, ":")
+timeNumberEnd = Mid(sleepEnd, 1, locationOfColonE - 1)
+
+Set WB = ThisWorkbook
+Set InfoTable = WB.Worksheets("Info Table")
+  Do While (InfoTable.Cells(intRow, "A") <> "")
+       intRow = intRow + 1
+    Loop
+    
+ InfoTable.Cells(intRow, "A") = timeNumberStart
+  InfoTable.Cells(intRow, "B") = timeTypeStart
+ InfoTable.Cells(intRow, "C") = timeNumberEnd
+ InfoTable.Cells(intRow, "D") = timeTypeEnd
+  InfoTable.Cells(intRow, "E") = facultyName
+  
+MsgBox "Data has been saved.", vbInformation, "Saved!"
+
+Sleepstarttxt.Value = ""
+sleependtxt.Value = ""
+FacultyComboBox.Value = ""
+End If
+
+End Sub
+
+Private Sub UserForm_Initialize()
+    
+    Me.Sleepstarttxt.AddItem "12:00am"
+    Me.Sleepstarttxt.AddItem "1:00am"
+    Me.Sleepstarttxt.AddItem "2:00am"
+    Me.Sleepstarttxt.AddItem "3:00am"
+    Me.Sleepstarttxt.AddItem "4:00am"
+    Me.Sleepstarttxt.AddItem "5:00am"
+    Me.Sleepstarttxt.AddItem "6:00am"
+    Me.Sleepstarttxt.AddItem "7:00am"
+    Me.Sleepstarttxt.AddItem "8:00am"
+    Me.Sleepstarttxt.AddItem "9:00am"
+    Me.Sleepstarttxt.AddItem "10:00am"
+    Me.Sleepstarttxt.AddItem "11:00am"
+    Me.Sleepstarttxt.AddItem "12:00pm"
+    Me.Sleepstarttxt.AddItem "1:00pm"
+    Me.Sleepstarttxt.AddItem "2:00pm"
+    Me.Sleepstarttxt.AddItem "3:00pm"
+    Me.Sleepstarttxt.AddItem "4:00pm"
+    Me.Sleepstarttxt.AddItem "5:00pm"
+    Me.Sleepstarttxt.AddItem "6:00pm"
+    Me.Sleepstarttxt.AddItem "7:00pm"
+    Me.Sleepstarttxt.AddItem "8:00pm"
+    Me.Sleepstarttxt.AddItem "9:00pm"
+    Me.Sleepstarttxt.AddItem "10:00pm"
+    Me.Sleepstarttxt.AddItem "11:00pm"
+    
+    Me.sleependtxt.AddItem "12:00am"
+    Me.sleependtxt.AddItem "1:00am"
+    Me.sleependtxt.AddItem "2:00am"
+    Me.sleependtxt.AddItem "3:00am"
+    Me.sleependtxt.AddItem "4:00am"
+    Me.sleependtxt.AddItem "5:00am"
+    Me.sleependtxt.AddItem "6:00am"
+    Me.sleependtxt.AddItem "7:00am"
+    Me.sleependtxt.AddItem "8:00am"
+    Me.sleependtxt.AddItem "9:00am"
+    Me.sleependtxt.AddItem "10:00am"
+    Me.sleependtxt.AddItem "11:00am"
+    Me.sleependtxt.AddItem "12:00pm"
+    Me.sleependtxt.AddItem "1:00pm"
+    Me.sleependtxt.AddItem "2:00pm"
+    Me.sleependtxt.AddItem "3:00pm"
+    Me.sleependtxt.AddItem "4:00pm"
+    Me.sleependtxt.AddItem "5:00pm"
+    Me.sleependtxt.AddItem "6:00pm"
+    Me.sleependtxt.AddItem "7:00pm"
+    Me.sleependtxt.AddItem "8:00pm"
+    Me.sleependtxt.AddItem "9:00pm"
+    Me.sleependtxt.AddItem "10:00pm"
+    Me.sleependtxt.AddItem "11:00pm"
+    
+    Me.FacultyComboBox.AddItem "Arts"
+    Me.FacultyComboBox.AddItem "Engineering"
+    Me.FacultyComboBox.AddItem "Environment"
+    Me.FacultyComboBox.AddItem "Health"
+    Me.FacultyComboBox.AddItem "Mathematics"
+    Me.FacultyComboBox.AddItem "Science"
+    
+   
+End Sub
