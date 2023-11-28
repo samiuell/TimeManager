@@ -1,58 +1,66 @@
-Private Sub NextBtn_Click()
-Dim SleepStart As String
-Dim sleepEnd As String
-Dim facultyName As String
-Dim intRow As Integer
-Dim timeTypeStart As String
-Dim timeNumberStart As Integer
-Dim timeTypeEnd As String
-Dim timeNumberEnd As Integer
-Dim locationOfColonS As Integer
-Dim locationOfColonE As Integer
+Private Sub CommandButton1_Click()
 
-intRow = 2
-
-SleepStart = Sleepstarttxt.Value
-sleepEnd = sleependtxt.Value
-facultyName = FacultyComboBox.Value
-
-If (SleepStart = "" Or sleepEnd = "" Or facultyName = "") Then
-MsgBox "Please fill in all the required data before saving!", vbExclamation, "Warning!"
-ElseIf (SleepStart = sleepEnd) Then
-MsgBox "Be realistic - you need some sleep", vbExclamation, "Sleep!"
-
-Else
-
-timeTypeStart = Right(SleepStart, 2)
-timeTypeEnd = Right(sleepEnd, 2)
-
-locationOfColonS = InStr(SleepStart, ":")
-timeNumberStart = Mid(SleepStart, 1, locationOfColonS - 1)
-
-locationOfColonE = InStr(sleepEnd, ":")
-timeNumberEnd = Mid(sleepEnd, 1, locationOfColonE - 1)
-
-Set WB = ThisWorkbook
-Set InfoTable = WB.Worksheets("Info Table")
-  Do While (InfoTable.Cells(intRow, "A") <> "")
-       intRow = intRow + 1
-    Loop
-    
- InfoTable.Cells(intRow, "A") = timeNumberStart
-  InfoTable.Cells(intRow, "B") = timeTypeStart
- InfoTable.Cells(intRow, "C") = timeNumberEnd
- InfoTable.Cells(intRow, "D") = timeTypeEnd
-  InfoTable.Cells(intRow, "E") = facultyName
-  
-MsgBox "Data has been saved.", vbInformation, "Saved!"
-
-Sleepstarttxt.Value = ""
-sleependtxt.Value = ""
-FacultyComboBox.Value = ""
-End If
+InfoForm.Hide
 
 End Sub
 
+Private Sub NextBtn_Click()
+    Dim sleepStart As String
+    Dim sleepEnd As String
+    Dim facultyName As String
+    Dim intRow As Integer
+    Dim timeTypeStart As String
+    Dim timeNumberStart As Integer
+    Dim timeTypeEnd As String
+    Dim timeNumberEnd As Integer
+    Dim locationOfColonS As Integer
+    Dim locationOfColonE As Integer
+
+    intRow = 2
+
+    sleepStart = Sleepstarttxt.Value
+    sleepEnd = sleependtxt.Value
+    facultyName = FacultyComboBox.Value
+
+    If (sleepStart = "" Or sleepEnd = "" Or facultyName = "") Then
+        MsgBox "Please fill in all the required data before saving!", vbExclamation, "Warning!"
+    ElseIf (sleepStart = sleepEnd) Then
+        MsgBox "Be realistic - you need some sleep", vbExclamation, "Sleep!"
+
+    Else
+
+        timeTypeStart = Right(sleepStart, 2)
+        timeTypeEnd = Right(sleepEnd, 2)
+
+        locationOfColonS = InStr(sleepStart, ":")
+        timeNumberStart = Mid(sleepStart, 1, locationOfColonS - 1)
+
+        locationOfColonE = InStr(sleepEnd, ":")
+        timeNumberEnd = Mid(sleepEnd, 1, locationOfColonE - 1)
+
+        Set WB = ThisWorkbook
+        Set InfoTable = WB.Worksheets("Personal Information")
+        
+        Do While (InfoTable.Cells(intRow, "A") <> "")
+            intRow = intRow + 1
+        Loop
+    
+        InfoTable.Cells(intRow, "A") = timeNumberStart
+        InfoTable.Cells(intRow, "B") = timeTypeStart
+        InfoTable.Cells(intRow, "C") = timeNumberEnd
+        InfoTable.Cells(intRow, "D") = timeTypeEnd
+        InfoTable.Cells(intRow, "E") = facultyName
+  
+        MsgBox "Data has been saved.", vbInformation, "Saved!"
+
+        Sleepstarttxt.Value = ""
+        sleependtxt.Value = ""
+        FacultyComboBox.Value = ""
+    End If
+
+    MsgBox ("Next head to the Class Schedule Sheet to schedule your class time.")
+
+End Sub
 Private Sub UserForm_Initialize()
     
     Me.Sleepstarttxt.AddItem "12:00am"
