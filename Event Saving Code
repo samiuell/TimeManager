@@ -1,0 +1,212 @@
+
+Private Sub AllDayCheckBox_Click()
+
+End Sub
+
+Private Sub CloseButton_Click()
+
+Unload EventForm
+
+End Sub
+
+Private Sub SaveButton_Click()
+Dim eventName As String
+Dim month As String
+Dim day As String
+Dim year As String
+Dim startTime As String
+Dim endTime As String
+Dim Category As String
+Dim allDayCheck As Boolean
+
+Dim timeNumStart As Integer
+Dim timeTypeStart As String
+Dim timeNumEnd As Integer
+Dim timeTypeEnd As String
+Dim locationOfColonS As Integer
+Dim locationOfColonE As Integer
+Dim intRow As Integer
+
+intRow = 2
+
+eventName = EventNameTextBox.Value
+month = comboMonth.Value
+day = comboDay.Value
+year = comboYear.Value
+
+startTime = StartTimeComboBox.Value
+endTime = EndTimeComboBox.Value
+allDayCheck = AllDayCheckBox.Value
+
+Category = CategoryComboBox.Value
+
+If (eventName = "" Or Category = "") Then
+MsgBox "Please fill in all the required data before saving!", vbExclamation, "Warning!"
+ElseIf (startTime = "" Or endTime = "") And allDayCheck = False Then
+ MsgBox "Please give data regarding time.", vbExclamation, "Time Data!"
+
+ElseIf (startTime <> "" Or endTime <> "") And allDayCheck = True Then
+    MsgBox "Please choose either specific timings or all day.", vbExclamation, "Pick One!"
+
+Else
+
+If (allDayCheck = True) Then
+Set WB = ThisWorkbook
+Set EventTable = WB.Worksheets("Event Table")
+  Do While (EventTable.Cells(intRow, "A") <> "")
+       intRow = intRow + 1
+    Loop
+    
+ EventTable.Cells(intRow, "A") = eventName
+  EventTable.Cells(intRow, "B") = day
+ EventTable.Cells(intRow, "C") = month
+ EventTable.Cells(intRow, "D") = year
+  EventTable.Cells(intRow, "G") = "Yes"
+  EventTable.Cells(intRow, "H") = ""
+   EventTable.Cells(intRow, "I") = ""
+  EventTable.Cells(intRow, "J") = ""
+  EventTable.Cells(intRow, "K") = ""
+  EventTable.Cells(intRow, "L") = Category
+  
+  
+MsgBox "Event Data has been saved.", vbInformation, "Saved!"
+EventNameTextBox.Value = ""
+comboMonth.Value = "1"
+comboDay.Value = "1"
+comboYear.Value = "2023"
+StartTimeComboBox.Value = ""
+EndTimeComboBox.Value = ""
+AllDayCheckBox.Value = False
+CategoryComboBox.Value = ""
+
+  Else
+timeTypeStart = Right(startTime, 2)
+timeTypeEnd = Right(endTime, 2)
+
+locationOfColonS = InStr(startTime, ":")
+timeNumStart = Mid(startTime, 1, locationOfColonS - 1)
+
+locationOfColonE = InStr(endTime, ":")
+timeNumEnd = Mid(endTime, 1, locationOfColonE - 1)
+
+Set WB = ThisWorkbook
+Set EventTable = WB.Worksheets("Event Table")
+  Do While (EventTable.Cells(intRow, "A") <> "")
+       intRow = intRow + 1
+    Loop
+    
+   EventTable.Cells(intRow, "A") = eventName
+  EventTable.Cells(intRow, "B") = day
+ EventTable.Cells(intRow, "C") = month
+ EventTable.Cells(intRow, "D") = year
+  EventTable.Cells(intRow, "G") = "No"
+  EventTable.Cells(intRow, "H") = timeNumStart
+   EventTable.Cells(intRow, "I") = timeTypeStart
+  EventTable.Cells(intRow, "J") = timeNumEnd
+  EventTable.Cells(intRow, "K") = timeTypeEnd
+  EventTable.Cells(intRow, "L") = Category
+  
+MsgBox "Event Data has been saved.", vbInformation, "Saved!"
+
+EventNameTextBox.Value = ""
+comboMonth.Value = "1"
+comboDay.Value = "1"
+comboYear.Value = "2023"
+StartTimeComboBox.Value = ""
+EndTimeComboBox.Value = ""
+AllDayCheckBox.Value = False
+CategoryComboBox.Value = ""
+End If
+
+End If
+
+End Sub
+
+Private Sub UserForm_Click()
+
+End Sub
+
+Private Sub UserForm_Initialize()
+
+    ' Initialize CategoryComboBox
+    CategoryComboBox.Clear
+    CategoryComboBox.AddItem "School"
+    CategoryComboBox.AddItem "Work"
+    CategoryComboBox.AddItem "Exercise"
+    CategoryComboBox.AddItem "Chores"
+    CategoryComboBox.AddItem "Social/Fun"
+    CategoryComboBox.AddItem "Commute"
+    CategoryComboBox.AddItem ""
+    CategoryComboBox.AddItem ""
+    CategoryComboBox.AddItem ""
+    CategoryComboBox.AddItem ""
+    
+    comboYear.Value = 2023
+    comboMonth.Value = 1
+    comboDay.Value = 1
+    
+    Dim startTime As String
+    Dim endTime As String
+    ' Initialize StartTimeComboBox
+    StartTimeComboBox.Clear
+    
+    startTime = "12:00AM"
+    StartTimeComboBox.AddItem startTime
+    
+    For i = 1 To 11
+        startTime = Format(i, "00") & ":" & Format(0, "00") & Format("AM", "00")
+        StartTimeComboBox.AddItem startTime
+    Next i
+    
+    startTime = "12:00PM"
+    StartTimeComboBox.AddItem startTime
+    
+    For i = 1 To 11
+        startTime = Format(i, "00") & ":" & Format(0, "00") & Format("PM", "00")
+        StartTimeComboBox.AddItem startTime
+    Next i
+    
+    ' Initialize EndTimeComboBox
+    EndTimeComboBox.Clear
+    
+    endTime = "12:00AM"
+    EndTimeComboBox.AddItem
+    
+    For i = 1 To 11
+        endTime = Format(i, "00") & ":" & Format(0, "00") & Format("AM", "00")
+        EndTimeComboBox.AddItem endTime
+    Next i
+    
+    endTime = "12:00PM"
+    EndTimeComboBox.AddItem endTime
+    
+    For i = 1 To 12
+        endTime = Format(i, "00") & ":" & Format(0, "00") & Format("PM", "00")
+        EndTimeComboBox.AddItem endTime
+    Next i
+    
+    ' Initialize DayComboBox
+    comboDay.Clear
+    For D = 1 To 31
+        comboDay.AddItem Format(D, "00")
+    Next D
+
+    ' Initialize MonthComboBox
+    comboMonth.Clear
+    For M = 1 To 12
+        comboMonth.AddItem Format(M, "00")
+    Next M
+
+    ' Initialize YearComboBox
+    comboYear.Clear
+    Dim currentYear As Integer
+    currentYear = year(Date)
+    For y = currentYear To currentYear + 10
+        comboYear.AddItem y
+    Next y
+End Sub
+
+
+
+
+
