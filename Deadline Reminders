@@ -1,4 +1,5 @@
 Sub DeadlineReminders()
+'Function to find all upcoming school deadlines within the upcoming week and display in a message box to user
     Dim ws As Worksheet
     Dim Category As String
     Dim currentDate As Date
@@ -7,25 +8,24 @@ Sub DeadlineReminders()
     Dim eventDate As Date
     Dim message As String
     
-    ' Set the worksheet
-    Set ws = ThisWorkbook.Sheets("Events") ' Change "Events" to the name of correct sheet
-    
+
+    Set ws = ThisWorkbook.Sheets("Event Table")
     currentCategory = "School"
     
-    ' Set the current date and end date (one week later)
+    
     currentDate = Date
     endDate = Date + 7
     
-    ' Initialize the message
+    
     message = "Upcoming events in the '" & currentCategory & "' category:" & vbCrLf & vbCrLf
     
-    ' Loop through each row in the Events sheet
-    For i = 2 To ws.Cells(ws.Rows.Count, "A").End(xlUp).Row ' Replace 2 with row data starts in
+    ' Loop through each row in the Events sheet to check if date and category conditions are met
+    For i = 2 To ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
     
         ' Check if the event is in the specified category and date range
-        If ws.Cells(i, 2).Value = currentCategory Then
-            eventTitle = ws.Cells(i, 1).Value ' Replace 1 with column event title is in
-            eventDate = ws.Cells(i, 3).Value ' Replace 2 with column date is in 
+        If ws.Cells(i, 12).Value = currentCategory Then
+            eventTitle = ws.Cells(i, 1).Value
+            eventDate = ws.Cells(i, 5).Value
             
             If eventDate >= currentDate And eventDate <= endDate Then
                 message = message & eventTitle & ": " & Format(eventDate, "yyyy-mm-dd") & vbCrLf
@@ -34,7 +34,7 @@ Sub DeadlineReminders()
     Next i
     
     ' Display the message box
-    If Len(message) > Len("Upcoming events in the '" & currentCategory & "' category:" & vbCrLf & vbCrLf) Then
+    If Len(message) > Len("Upcoming events in the " & currentCategory & " category:" & vbCrLf & vbCrLf) Then
         MsgBox message, vbInformation, "Event Information"
     Else
         MsgBox "No events found in the '" & currentCategory & "' category within the specified date range.", vbInformation, "Event Information"
